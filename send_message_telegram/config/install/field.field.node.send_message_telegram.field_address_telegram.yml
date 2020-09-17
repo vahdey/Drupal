@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_address_telegram
+    - node.type.send_message_telegram
+id: node.send_message_telegram.field_address_telegram
+field_name: field_address_telegram
+entity_type: node
+bundle: send_message_telegram
+label: 'آدرس تلگرام'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: '@...'
+default_value_callback: ''
+settings: {  }
+field_type: string

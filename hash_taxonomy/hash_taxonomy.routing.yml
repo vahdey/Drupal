@@ -1,0 +1,7 @@
+txn:
+  path: '/hash_taxonomy'
+  defaults:
+    _form: '\Drupal\hash_taxonomy\Controller\settingForm'
+    _title: 'Module Setting'
+  requirements:
+    _permission: 'access content'

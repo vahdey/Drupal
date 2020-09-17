@@ -1,0 +1,11 @@
+name: add_contact
+description: Create a contact in sendinblue.
+package: Custom
+
+type: module
+core: 8.x
+
+dependencies:
+  - sendinblue:sendinblue
+
+

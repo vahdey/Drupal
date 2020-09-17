@@ -1,0 +1,29 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+function add_contact_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if ($form_id === 'user_register_form') {
+        $form['actions']['submit']['#submit'][] = '_custom_submit';
+    }
+}
+
+function _custom_submit($form, FormStateInterface $form_state)
+{
+    $value = $form_state->getValue('mail');
+
+    //require('../mailin.php');
+    //$mailin = new Mailin("https://api.sendinblue.com/v2.0","Your access key");
+    $mailin = new \Drupal\sendinblue\SendinblueMailin("https://api.sendinblue.com/v2.0", '8yJP31ZLVIfxFCjO');
+    $data = array( "email" => $value,
+     "attributes" => array("NAME"=>"name", "SURNAME"=>"surname"),
+     "listid" => array(1,4,6),
+     "listid_unlink" => array(2,5)
+    );
+
+    $mailin->createUpdateUser($data);
+    //var_dump($mailin->create_update_user($data));
+}
+
+?>

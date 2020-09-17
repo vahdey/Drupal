@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_call
+    - node.type.send_message_telegram
+id: node.send_message_telegram.field_call
+field_name: field_call
+entity_type: node
+bundle: send_message_telegram
+label: 'شماره تماس'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

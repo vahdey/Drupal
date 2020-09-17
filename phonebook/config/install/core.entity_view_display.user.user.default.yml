@@ -1,0 +1,27 @@
+langcode: fa
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_phonebook
+  module:
+    - user
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  field_phonebook:
+    weight: 6
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  member_for:
+    weight: 5
+    region: content
+hidden:
+  langcode: true
+  linked_username: true
+  private_message_link: true

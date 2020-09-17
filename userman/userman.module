@@ -1,0 +1,66 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\userman\RouterosAPI;
+
+
+function userman_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if ($form_id === 'user_register_form') {
+        $form['actions']['submit']['#submit'][] = 'userman_submit';
+    }
+}
+
+function userman_submit($form, FormStateInterface $form_state)
+{
+    $name = $form_state->getValue('name');
+    $pass = $form_state->getValue('pass');
+
+    $API = new RouterosAPI();
+    $API->debug = true;
+    if ($API->connect('213.233.177.225', 'sharifclub', '$h@rifClub@Tapesh') ) {
+
+        $API->write('/tool/user-manager/user/add',false);
+        $API->write('=customer=sharifclub',false);
+        $API->write('=username='.$name,false);
+        $API->write('=password='.$pass);
+        $number=$API->read();
+
+        // add profile
+        if(!empty($number)){
+            $API->write('/tool/user-manager/user/create-and-activate-profile',false);
+            $API->write('=customer=sharifclub',false);
+            $API->write('=numbers='.$number,false);
+            $API->write('=profile=Authorised');
+            $res=$API->read();
+            $API->disconnect();
+            dsm("Operation successful!!");
+
+        }else{
+            $API->disconnect();
+            $error = 'can\'t assign profile';
+            dsm($error);
+        }
+    }else{
+        $error = 'can\'t connect to mikrotik';
+        dsm($error);
+    }
+
+    /*$API = new RouterosAPI();
+    $API->debug = true;
+    if ($API->connect('213.233.177.225', 'sharifclub', '$h@rifClub@Tapesh') ) {
+
+        $ARR = $API->comm("/tool/user-manager/user/add", Array(
+            "customer" => "sharifclub",
+            "name" => $name,
+            "password" => $pass,
+            "shared-users" => "1",
+        ));
+
+
+        $API->disconnect();
+    }*/
+}
+
+
+?>

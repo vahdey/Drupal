@@ -1,0 +1,8 @@
+name: hash_taxonomy
+description: Creates a taxonomy when create node.
+package: Custom
+
+type: module
+core: 8.x
+
+

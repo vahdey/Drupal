@@ -1,0 +1,54 @@
+<?php
+
+use  Drupal\Core\Entity\EntityInterface;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\taxonomy\Entity\Term;
+
+use Drupal\Core\Render\Element\ElementInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+
+/*function hash_taxonomy_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if ($form_id === 'setting_form') {
+        $form['actions']['submit']['#submit'][] = 'vocabName';
+    }
+}*/
+
+
+function hash_taxonomy_node_insert(EntityInterface $node) {
+
+        $vocab = taxonomy_vocabulary_get_names();
+
+        if ($vocab['hash_taxonomy'] == null) {
+            $vocabulary = Vocabulary::create(array(
+                'vid' => 'hash_taxonomy',    //machine_name
+                'name' => 'hash_taxonomy'
+            ));
+            $vocabulary->save();
+        }
+
+        $value = $node->body->value;
+        preg_match_all("/#\w+/", $value, $out);
+
+
+        foreach ($out[0] as $name){
+            $name = substr($name, 1);
+            $term_checker = taxonomy_term_load_multiple_by_name($name, 'hash_taxonomy');
+
+            if ($term_checker == false){
+               $term = Term::create([
+                   'name' => $name,
+                   'vid' => 'hash_taxonomy',
+               ]);
+                $term->save();
+
+                $node->field_tags->target_id = $term->id();
+                $node->save();
+
+                taxonomy_build_node_index($node);
+            }
+        }
+}
+
+?>

@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.send_message_telegram
+  module:
+    - text
+id: node.send_message_telegram.body
+field_name: body
+entity_type: node
+bundle: send_message_telegram
+label: 'معرفی شرکت'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

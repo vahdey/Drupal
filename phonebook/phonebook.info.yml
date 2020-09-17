@@ -1,0 +1,9 @@
+name: Phonebook
+description: 'you can register phonenumbers'
+type: module
+core: 8.x
+dependencies:
+  - field
+  - user
+  - views
+version: 8.x

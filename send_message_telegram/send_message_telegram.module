@@ -1,0 +1,67 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+
+function send_message_telegram_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    if ($form_id === 'node_send_message_telegram_form') {
+        $form['actions']['submit']['#submit'][] = 'send_message_telegram_submit';
+    }
+    // dsm($form_id);
+}
+
+function send_message_telegram_submit($form, FormStateInterface $form_state)
+{
+
+      $botToken = "763965648:AAEhSIPxA5spaTHV8WsG4GCqih-62SFnwzE";
+      $chat_id = "@sharif_job";
+      $bot_url = "https://api.telegram.org/bot$botToken/";
+
+      //get variable
+      $title = $form_state->getValue('title')[0][value];//0
+      $body = $form_state->getValue('body')[0][value];//1
+      $field_education = $form_state->getValue('field_education')[0][value];//2
+      $field_numbers_sharif = $form_state->getValue('field_numbers_sharif')[0][value];//3
+      $field_experience = $form_state->getValue('field_experience')[0][value];//4
+      $field_meet = $form_state->getValue('field_meet')[0][value];//5
+      $field_max_year = $form_state->getValue('field_max_year')[0][value];//6
+      $field_advantages = $form_state->getValue('field_advantages')[0][value];//7
+      $field_call = $form_state->getValue('field_call')[0][value];//8
+      $field_email_address = $form_state->getValue('field_email_address')[0][value];//9
+      $field_address_telegram = $form_state->getValue('field_address_telegram')[0][value];//10
+
+
+      $message = array($title,$body,$field_education,$field_numbers_sharif,$field_experience,  $field_meet,$field_max_year,$field_advantages,$field_call,$field_email_address,$field_address_telegram);
+      $message_body = $message[1];
+
+
+    $string = strip_tags($message_body);
+    $string_body = str_replace( array( '&nbsp;' ), 'شریف کلاب ', $string);
+    $url = $bot_url."sendMessage?chat_id=".$chat_id."&text=".urlencode(
+    "عنوان آگهی: ".$message[0]."\r\n".
+    "معرفی شرکت: ".$string_body."\r\n\r\n".
+    "🔻شرایط احراز"."\r\n\r\n".
+    "🔹تحصیلات: ".$message[2]."\r\n".
+    "🔹تجربه: ".$message[4]."\r\n".
+    "🔹افراد شریفی: ".$message[3]."\r\n".
+    "🔹آشنایی با: ".$message[5]."\r\n".
+    "🔹حداکثر سن: ".$message[6]."\r\n".
+    "🔻مزایا: ".$message[7]."\r\n\r\n".
+
+    "از متقاضیان عزیز خواهشمند است رزومه خود را به آدرس ایمیل زیر ارسال یا با شماره تماس‌ زیر در ساعات اداری تماس حاصل نمایند."."\r\n"."👇"."\r\n".
+    "☎️ شماره تماس: ".$message[8]."\r\n\r\n".
+    "📧 آدرس ایمیل: ".$message[9]."\r\n\r\n".
+    "➡️آدرس تلگرام: ".$message[10]."\r\n\r\n".
+    "📌دریافت «تمامی فرصت های همکاری دانشگاه »"."👇🙏👇🙏👇🙏".
+    "@sharif_job"
+  );
+
+    file_get_contents($url);
+
+  }//for
+
+
+
+
+?>
